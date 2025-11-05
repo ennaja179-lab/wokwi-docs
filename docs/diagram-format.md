@@ -1,3 +1,37 @@
+{
+  "version": 1,
+  "author": "SyncSense Team",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-v1", "id": "esp32", "top": 80, "left": 80, "rotate": 0, "attrs": {} },
+    { "type": "gps-module", "id": "gps1", "top": 80, "left": 480, "rotate": 0, "attrs": { "label": "NEO-6M GPS" } },
+    { "type": "ic-generic", "id": "sim800l", "top": 280, "left": 480, "attrs": { "label": "SIM800L GSM" } },
+    { "type": "ic-generic", "id": "mcp1700", "top": 380, "left": 250, "attrs": { "label": "MCP1700 Regulator (3.3V)" } },
+    { "type": "battery", "id": "battery1", "top": 480, "left": 250, "attrs": { "label": "Li-Po 3.7V Battery" } },
+    { "type": "button", "id": "button1", "top": 50, "left": 300, "attrs": { "label": "Panic Button" } },
+    { "type": "piezo", "id": "piezo1", "top": 50, "left": 150, "attrs": { "label": "Piezo Sensor" } }
+  ],
+  "connections": [
+    ["esp32:3V3", "gps1:VCC", "red", ["v-30", "h80"]],
+    ["esp32:GND.1", "gps1:GND", "black", ["h80"]],
+    ["esp32:TX2", "sim800l:RX", "green", ["h60"]],
+    ["esp32:RX2", "sim800l:TX", "orange", ["h70"]],
+    ["esp32:GND.1", "sim800l:GND", "black", ["h60"]],
+    ["battery1:positive", "sim800l:VCC", "red", ["v-30", "h40"]],
+    ["battery1:positive", "mcp1700:VIN", "red", ["v-20", "h-30"]],
+    ["mcp1700:VOUT", "esp32:3V3", "red", ["h-40"]],
+    ["mcp1700:GND", "battery1:negative", "black", ["h-30"]],
+    ["esp32:GND.2", "battery1:negative", "black", ["h-50"]],
+    ["esp32:GPIO25", "button1:1.l", "blue", ["h-40"]],
+    ["button1:2.l", "esp32:3V3", "red", ["h-40"]],
+    ["esp32:GPIO35", "piezo1:signal", "blue", ["v-20"]],
+    ["piezo1:ground", "esp32:GND.2", "black", ["v40"]],
+    ["gps1:TX", "esp32:GPIO34", "green", ["h-60"]],
+    ["gps1:RX", "esp32:GPIO33", "orange", ["h-60"]],
+    ["esp32:GND.2", "gps1:GND", "black", ["v60"]]
+  ],
+  "dependencies": {}
+}
 ---
 title: diagram.json File Format
 sidebar_label: diagram.json
